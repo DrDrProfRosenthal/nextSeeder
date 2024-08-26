@@ -105,7 +105,7 @@
 
  async function insertVocabData() {
   await client.sql`
-   CREATE TABLE IF NOT EXISTS vocabs (
+    CREATE TABLE IF NOT EXISTS vocabs (
       engVocab VARCHAR(255) NOT NULL UNIQUE,
       gerVocab VARCHAR(255) NOT NULL UNIQUE,
       engExample VARCHAR(255) NOT NULL UNIQUE,
@@ -113,17 +113,25 @@
     );
   `;
 
-  const insertedRevenue = await Promise.all(
-    revenue.map(
-      (rev) => client.sql`
+  const insertedVocabs = await Promise.all(
+    [
+      {
+        engVocab: 'wary',
+        gerVocab: 'vorsichtig, achtsam',
+        engExample: 'I am always wary when paying online with my credit card.',
+        gerExample: 'Wenn ich online mit Kreditkarte bezahle, bin ich immer vorsichtig.',
+      },
+      // Add more vocab data here if needed
+    ].map(
+      (vocab) => client.sql`
         INSERT INTO vocabs (engVocab, gerVocab, engExample, gerExample)
-        VALUES ("wary","vorsichtig, achtsam","I am always wary when paying online with my credit card.","Wenn ich online mit Kreditkarte bezahle, bin ich immer vorsichtig.");
-        ON CONFLICT (month) DO NOTHING;
+        VALUES (${vocab.engVocab}, ${vocab.gerVocab}, ${vocab.engExample}, ${vocab.gerExample})
+        ON CONFLICT (engVocab) DO NOTHING;
       `,
     ),
   );
 
-  return insertedRevenue;
+  return insertedVocabs;
 }
 
 
