@@ -101,7 +101,7 @@
    return insertedRevenue;
  }
 
-
+/*
  async function insertVocabData() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS vocabs (
@@ -119,7 +119,7 @@
   
 }
 
-
+*/
 
 export async function GET() {
 
@@ -129,7 +129,7 @@ export async function GET() {
      await seedCustomers();
      await seedInvoices();
      await seedRevenue();
-     await insertVocabData();
+   //  await insertVocabData();
      await client.sql`COMMIT`;
 
      return Response.json({ message: 'Database seeded successfully' });
