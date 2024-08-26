@@ -109,7 +109,7 @@
       engVocab VARCHAR(255) NOT NULL UNIQUE,
       gerVocab VARCHAR(255) NOT NULL UNIQUE,
       engExample VARCHAR(255) NOT NULL UNIQUE,
-      gerExample VARCHAR(255) NOT NULL UNIQUE,
+      gerExample VARCHAR(255) NOT NULL UNIQUE
     );
   `;
 
