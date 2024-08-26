@@ -101,6 +101,33 @@
    return insertedRevenue;
  }
 
+
+
+ async function insertVocabData() {
+  await client.sql`
+   CREATE TABLE IF NOT EXISTS vocabs (
+      engVocab VARCHAR(255) NOT NULL UNIQUE,
+      gerVocab VARCHAR(255) NOT NULL UNIQUE,
+      engExample VARCHAR(255) NOT NULL UNIQUE,
+      gerExample VARCHAR(255) NOT NULL UNIQUE,
+    );
+  `;
+
+  const insertedRevenue = await Promise.all(
+    revenue.map(
+      (rev) => client.sql`
+        INSERT INTO vocabs (engVocab, gerVocab, engExample, gerExample)
+        VALUES ("wary","vorsichtig, achtsam","I am always wary when paying online with my credit card.","Wenn ich online mit Kreditkarte bezahle, bin ich immer vorsichtig.");
+        ON CONFLICT (month) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedRevenue;
+}
+
+
+
 /*
  async function insertVocabData() {
   await client.sql`
@@ -129,7 +156,7 @@ export async function GET() {
      await seedCustomers();
      await seedInvoices();
      await seedRevenue();
-   //  await insertVocabData();
+     await insertVocabData();
      await client.sql`COMMIT`;
 
      return Response.json({ message: 'Database seeded successfully' });
