@@ -102,7 +102,7 @@
  }
 
 
- async function insertVocabData(engVocab:string,gerVocab:string,engExample:string,gerExample:string) {
+ async function insertVocabData() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS vocabs (
       engVocab VARCHAR(255) NOT NULL UNIQUE,
@@ -114,7 +114,7 @@
 
    
      client.sql`INSERT INTO vocabs (engVocab, gerVocab, engExample, gerExample)
-        VALUES (${engVocab}, ${gerVocab}, ${engExample}, ${gerExample});         
+        VALUES ("wary","vorsichtig, achtsam","I am always wary when paying online with my credit card.","Wenn ich online mit Kreditkarte bezahle, bin ich immer vorsichtig.");         
       `;
   
 }
@@ -129,7 +129,7 @@ export async function GET() {
      await seedCustomers();
      await seedInvoices();
      await seedRevenue();
-     await insertVocabData("wary","vorsichtig","I am always wary when paying online with my credit card.","Wenn ich online mit Kreditkarte bezahle, bin ich immer vorsichtig.");
+     await insertVocabData();
      await client.sql`COMMIT`;
 
      return Response.json({ message: 'Database seeded successfully' });
